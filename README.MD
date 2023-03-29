@@ -58,7 +58,7 @@ Start the server:
 ```bash
 npm start
 ```
-Open your browser and navigate to http://localhost:<port-number>/api-docs to view the API documentation.
+Open your browser and navigate to https://myjobsapi.cyclic.app/ to view the API documentation.
 
 ### Conclusion
 This API provides an easy and efficient way to track job applications and their status. With its security features, users can trust that their data is secure and easily accessible.
