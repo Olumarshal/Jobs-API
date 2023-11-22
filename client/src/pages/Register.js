@@ -4,7 +4,7 @@ import Wrapper from '../assets/wrappers/RegisterPage';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 
 const initialState = {
   name: '',
@@ -25,18 +25,32 @@ function Register() {
 
     setValues({ ...values, [name]: value });
   };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, password, isMember } = values;
-    if (!email || !password || (!isMember && !name)) {
-      toast.error('Please fill out all fields');
-      return;
+  const onSubmit = async(e) => {
+    try {
+      e.preventDefault();
+      const { name, email, password, isMember } = values;
+      if (!email || !password || (!isMember && !name)) {
+        toast.error('Please fill out all fields');
+        return;
+      }
+      if (isMember) {
+        dispatch(loginUser({ email: email, password: password }));
+        return;
+      }
+      const newUser = await fetch('http://localhost:5000/api/v1/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          "name":name,
+          "email":email,
+          "password":password
+      })
+      });
+      const user = await newUser.json();
+      console.log(user)
+      // dispatch(registerUser({ name, email, password }));
+    } catch(error) {
+      console.log(error);
     }
-    if (isMember) {
-      dispatch(loginUser({ email: email, password: password }));
-      return;
-    }
-    dispatch(registerUser({ name, email, password }));
   };
 
   const toggleMember = () => {

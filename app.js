@@ -5,6 +5,7 @@ const path = require("path");
 // extra security packages
 const helmet = require("helmet");
 const xss = require("xss-clean");
+const cors = require('cors');
 
 const express = require("express");
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.json());
 
 app.use(helmet());
 app.use(xss());
+app.use(cors());
 
 // routes
 app.use("/api/v1/auth", authRouter);
